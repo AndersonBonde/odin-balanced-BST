@@ -113,12 +113,24 @@ function tree(arr) {
 		}
 	}
 
+	function inOrder(callback = undefined, base = root, arr = []) {
+		if(base === null) return;
+
+		inOrder(callback, base.left, arr);
+		arr.push(base.data);
+		if(callback) base.data = callback(base.data);
+		inOrder(callback, base.right, arr);
+
+		if(!callback) return arr;
+	}
+
 	return { 
 		root,
 		insert,
 		deleteValue,
 		find,
-		levelOrder
+		levelOrder,
+		inOrder
 	 };
 }
 const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -149,7 +161,11 @@ prettyPrint(myTree.root);
 // Find
 console.log(myTree.find(324));
 
-// Lever order
 const double = (value) => value * 2;
-console.log(myTree.levelOrder(double));
-prettyPrint(myTree.root);
+// Lever order
+// console.log(myTree.levelOrder(double));
+// prettyPrint(myTree.root);
+
+// InOrder
+console.log(myTree.inOrder());
+// prettyPrint(myTree.root);
