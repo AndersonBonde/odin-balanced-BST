@@ -19,29 +19,29 @@ function tree(arr) {
 		return data;
 	}
 
-	function insert(base, value) {
+	function insert(value, base = root) {
 		if(base === null) {
 			base = node(value);
 			return base;
 		}
 
 		if(value < base.data) {
-			base.left = insert(base.left, value);
+			base.left = insert(value, base.left);
 		} else {
-			base.right = insert(base.right, value);
+			base.right = insert(value, base.right);
 		}
 
 		return base;
 	}
 
-	function deleteValue(base, value) {
+	function deleteValue(value, base = root) {
 		if(base === null) return base;
 
 		if(value < base.data) {
-			base.left = deleteValue(base.left, value);
+			base.left = deleteValue(value, base.left);
 			return base;
 		} else if(value > base.data) {
-			base.right = deleteValue(base.right, value);
+			base.right = deleteValue(value, base.right);
 			return base;
 		}
 
@@ -112,10 +112,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 prettyPrint(myTree.root);
 
-myTree.insert(myTree.root, 17);
+myTree.insert(17);
 prettyPrint(myTree.root);
 
-myTree.deleteValue(myTree.root, 8);
+myTree.deleteValue(8);
 prettyPrint(myTree.root);
 
 console.log(myTree.find(324));
