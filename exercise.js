@@ -146,6 +146,18 @@ function tree(arr) {
 		if(!callback) return arr;
 	}
 
+	function height(node) {
+		let left;
+		let right;
+		
+		if(node === null) return -1;
+
+		left = height(node.left) + 1;
+		right = height(node.right) + 1;
+
+		return Math.max(left, right);
+	}
+
 	return { 
 		root,
 		insert,
@@ -154,7 +166,8 @@ function tree(arr) {
 		levelOrder,
 		inOrder,
 		preOrder,
-		postOrder
+		postOrder,
+		height
 	 };
 }
 const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -174,29 +187,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 prettyPrint(myTree.root);
 
-// Insert 
-myTree.insert(17);
-prettyPrint(myTree.root);
-
-// Delete
-myTree.deleteValue(8);
-prettyPrint(myTree.root);
-
-// Find
-console.log(myTree.find(324));
-
-const double = (value) => value * 2;
-// Lever order
-// console.log(myTree.levelOrder(double));
-// prettyPrint(myTree.root);
-
-// inOrder
-console.log(myTree.inOrder());
-// prettyPrint(myTree.root);
-
-// preOrder
-console.log(myTree.preOrder())
-// prettyPrint(myTree.root);
-
-// postOrder
-console.log(myTree.postOrder());
+console.log(myTree.height(myTree.find(8)));
