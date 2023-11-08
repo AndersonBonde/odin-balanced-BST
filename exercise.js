@@ -77,7 +77,7 @@ function tree(arr) {
 	function find(value, base = root) {
 		let temp = base;
 		
-		if(temp === null) return 'Value not found';
+		if(temp === null) return null;
 
 		if(value < temp.data) {
 			temp = find(value, temp.left);
@@ -147,15 +147,29 @@ function tree(arr) {
 	}
 
 	function height(node) {
+		if(node === null) return -1;
+
 		let left;
 		let right;
-		
-		if(node === null) return -1;
 
 		left = height(node.left) + 1;
 		right = height(node.right) + 1;
 
 		return Math.max(left, right);
+	}
+
+	function depth(node, base = root) {
+		if(base === null || node === null) return -1;
+
+		let dist = -1;
+
+		if((base.data == node.data) ||
+			(dist = depth(node, base.left)) >= 0 ||
+			(dist = depth(node, base.right)) >= 0) {
+				return dist + 1;
+			}
+
+		return dist;
 	}
 
 	return { 
@@ -167,7 +181,8 @@ function tree(arr) {
 		inOrder,
 		preOrder,
 		postOrder,
-		height
+		height,
+		depth
 	 };
 }
 const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -186,5 +201,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 prettyPrint(myTree.root);
-
-console.log(myTree.height(myTree.find(8)));
