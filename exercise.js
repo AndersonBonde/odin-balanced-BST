@@ -124,13 +124,37 @@ function tree(arr) {
 		if(!callback) return arr;
 	}
 
+	function preOrder(callback = undefined, base = root, arr = []) {
+		if(base === null) return;
+
+		arr.push(base.data);
+		if(callback) base.data = callback(base.data);
+		preOrder(callback, base.left, arr);
+		preOrder(callback, base.right, arr);
+
+		if(!callback) return arr;
+	}
+
+	function postOrder(callback = undefined, base = root, arr = []) {
+		if(base === null) return;
+
+		postOrder(callback, base.left, arr);
+		postOrder(callback, base.right, arr);
+		arr.push(base.data);
+		if(callback) base.data = callback(base.data);
+
+		if(!callback) return arr;
+	}
+
 	return { 
 		root,
 		insert,
 		deleteValue,
 		find,
 		levelOrder,
-		inOrder
+		inOrder,
+		preOrder,
+		postOrder
 	 };
 }
 const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -166,6 +190,13 @@ const double = (value) => value * 2;
 // console.log(myTree.levelOrder(double));
 // prettyPrint(myTree.root);
 
-// InOrder
+// inOrder
 console.log(myTree.inOrder());
 // prettyPrint(myTree.root);
+
+// preOrder
+console.log(myTree.preOrder())
+// prettyPrint(myTree.root);
+
+// postOrder
+console.log(myTree.postOrder());
