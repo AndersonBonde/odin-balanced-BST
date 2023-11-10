@@ -208,7 +208,6 @@ function tree(arr) {
 		rebalance
 	 };
 }
-const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 // Function to visualize the binary search tree;
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -223,6 +222,44 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-prettyPrint(myTree.root);
 
+function randomNumber(max) {
+	return Math.ceil(Math.random() * max);
+}
 
+function createRandomArr() {
+	let arr = [];
+	let randomLength = Math.ceil((Math.random() * 40) + 10);
+
+	for(let i = 0; i < randomLength; i++) {
+		arr.push(randomNumber(120));
+	}
+
+	return arr;
+}
+
+const driver = () => {
+	const driverTree = tree(createRandomArr());
+	prettyPrint(driverTree.root);
+
+	console.log(`The initial tree is balanced: ${driverTree.isBalanced()}`);
+	console.log(`levelOrder: ${driverTree.levelOrder()}`);
+	console.log(`preOrder: ${driverTree.preOrder()}`);
+	console.log(`inOrder: ${driverTree.inOrder()}`);
+	console.log(`postOrder: ${driverTree.postOrder()}`);
+
+	for(let i = 0; i < 50; i++) {
+		driverTree.insert(randomNumber(200));
+	}
+	prettyPrint(driverTree.root);
+
+	console.log(`After adding 50 numbers the tree is balanced: ${driverTree.isBalanced()}`);
+	driverTree.rebalance();
+	prettyPrint(driverTree.root);
+	console.log(`After rebalance the tree is balanced again: ${driverTree.isBalanced()}`);
+	console.log(`levelOrder: ${driverTree.levelOrder()}`);
+	console.log(`preOrder: ${driverTree.preOrder()}`);
+	console.log(`inOrder: ${driverTree.inOrder()}`);
+	console.log(`postOrder: ${driverTree.postOrder()}`);
+}
+driver();
