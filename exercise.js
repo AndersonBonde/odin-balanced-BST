@@ -172,8 +172,29 @@ function tree(arr) {
 		return dist;
 	}
 
+	function isBalanced(base = root) {
+		if(base === null) return true;
+
+		let leftHeight = height(base.left);
+		let rightHeight = height(base.right);
+
+		if(Math.abs(leftHeight - rightHeight) > 1) return false;
+
+		let left = isBalanced(base.left);
+		let right = isBalanced(base.right);
+
+		if(!left || !right) return false;
+
+		return true;
+	}
+
+	function rebalance() {
+		let arr = inOrder();
+		root = buildTree(arr, 0, arr.length - 1);
+	}
+
 	return { 
-		root,
+		get root() { return root },
 		insert,
 		deleteValue,
 		find,
@@ -182,7 +203,9 @@ function tree(arr) {
 		preOrder,
 		postOrder,
 		height,
-		depth
+		depth,
+		isBalanced,
+		rebalance
 	 };
 }
 const myTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -201,3 +224,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 prettyPrint(myTree.root);
+
+
